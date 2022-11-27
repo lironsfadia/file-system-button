@@ -6,7 +6,7 @@ import React, { useEffect } from 'react'
 import { ShowDialogButtonProps } from '../../../common/typings'
 import useConfirmationDialog from '../useConfirmationDialog'
 import Group from './Group'
-import GroupMemeber from './GroupMemeber'
+import GroupMember from './GroupMember'
 
 function ShowDialogButton({
   id,
@@ -27,14 +27,14 @@ function ShowDialogButton({
               title: 'US admin',
               status: '2 approved out of 2',
               body: [
-                { approve: 'Eyal', when: 'approved before day' },
-                { approve: 'Zibi', when: 'approved before year' },
+                { approve: 'Nir', when: 'approved before day' },
+                { approve: 'Ziri', when: 'approved before year' },
               ],
             },
             {
               title: 'TLV admin',
               body: [
-                { approve: 'Offer', when: 'approved before day' },
+                { approve: 'Sharon', when: 'approved before day' },
                 { approve: 'kiki', when: 'approved before year' },
               ],
             },
@@ -48,7 +48,7 @@ function ShowDialogButton({
               status: '2 approved out of 2',
               body: [
                 { approve: 'Eyal', when: 'approved before day' },
-                { approve: 'Zibi', when: 'approved before year' },
+                { approve: 'Ziri', when: 'approved before year' },
               ],
             },
           ],
@@ -63,7 +63,7 @@ function ShowDialogButton({
             <Accordion>
               <Group title={value.title} status={value.status} />
               {value.body.map((bodyValue) => (
-                <GroupMemeber
+                <GroupMember
                   approvalStatus={bodyValue.when}
                   name={bodyValue.approve}
                 />
@@ -72,7 +72,7 @@ function ShowDialogButton({
           )),
         })
 
-        if (confirmed) alert('A MOOSE once bit my sister... No realli!')
+        if (confirmed) alert('OK')
       }
       onClick()
     }
@@ -85,7 +85,7 @@ function ShowDialogButton({
       variant="outlined"
       onClick={getDataHandler}
     >
-      {isLoading ? '' : 'Delete the Internet'}
+      {isLoading ? '' : title}
     </LoadingButton>
   )
 }

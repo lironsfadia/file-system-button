@@ -5,24 +5,22 @@ import React from 'react'
 
 import { ConfirmationDialogProps } from '../../../common/typings'
 
+const paperStyles = {
+  sx: {
+    width: '100%',
+    maxHeight: 800,
+  },
+}
+
 export default function ConfirmationDialog({
-  open,
-  title,
   message,
   onConfirm,
   onDismiss,
+  open,
+  title,
 }: ConfirmationDialogProps) {
   return (
-    <Dialog
-      PaperProps={{
-        sx: {
-          width: '100%',
-          maxHeight: 800,
-        },
-      }}
-      open={open}
-      onClose={onDismiss}
-    >
+    <Dialog PaperProps={paperStyles} open={open} onClose={onDismiss}>
       <DialogTitle textAlign="center">
         <IconButton
           style={{ position: 'absolute', top: '0', right: '0', color: 'white' }}

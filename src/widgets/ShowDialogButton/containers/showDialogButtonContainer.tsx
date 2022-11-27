@@ -31,7 +31,7 @@ export default function ShowDialogButtonContainer({ id }: { id: number }) {
       {
         <ShowDialogButton
           id={id}
-          title={`Secyrity Policy${id}`}
+          title={`Secyrity Policy ${id}`}
           data={postsData}
           isLoading={isLoading}
           getDataHandler={handleData}
