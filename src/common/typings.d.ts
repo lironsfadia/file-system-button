@@ -17,22 +17,34 @@ export interface dialogConfigProps {
 }
 
 export interface ShowDialogButtonProps {
-  data: Array<{
-    title: string
-    body: Array<{ approve: string; when: 'string' }>
-  }>
+  groups: Array<Group>
+  members: Array<GroupMember>
   getDataHandler: () => void
+  fetchGroupMembersHandler: () => void
   id: number
   isLoading: boolean
   title: string
 }
 
-export interface GroupProps {
+export interface Group {
+  groupName: string
+  status: string
+}
+
+export interface GroupMember {
   title: string
-  status: string | undefined
+  subtitle: string
+  image: any
+}
+
+export interface GroupProps {
+  title: string | undefined
+  subtitle: string | undefined
+  openHandler: (e) => void
+  closeHandler: (e) => void
 }
 
 export interface GroupMemberProps {
-  name: string
-  approvalStatus: string
+  title: string | undefined
+  subtitle: string | undefined
 }

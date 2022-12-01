@@ -3,10 +3,7 @@ import { deepOrange } from '@mui/material/colors'
 
 import { GroupMemberProps } from '../../../common/typings'
 
-export default function GroupMember({
-  name,
-  approvalStatus,
-}: GroupMemberProps) {
+export default function GroupMember({ title, subtitle }: GroupMemberProps) {
   return (
     <AccordionDetails>
       <CardHeader
@@ -18,8 +15,8 @@ export default function GroupMember({
             src={require('../../../assets/avatar/user.png')}
           />
         }
-        title={name}
-        subheader={approvalStatus}
+        title={title}
+        subheader={subtitle}
       />
     </AccordionDetails>
   )

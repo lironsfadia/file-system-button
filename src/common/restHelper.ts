@@ -1,16 +1,33 @@
-import axios from 'axios'
+import { getRandomPair } from './helpers'
 
-export const getData = (url: string) => {
-  return axios
-    .get(url)
-    .then(function (response) {
-      // handle success
-      console.info(response.data)
-      return response.data
-    })
-    .catch(function (error) {
-      // handle error
-      console.info(error)
-      return error
-    })
+export const getData = (delay?: number) => {
+  return new Promise((res, rej) =>
+    setTimeout(function () {
+      res([
+        {
+          groupName: 'US admin 1',
+          status: '2 approved out of 2',
+        },
+        {
+          groupName: 'US admin 2',
+          status: '2 approved out of 2',
+        },
+      ])
+    }, delay)
+  )
+}
+
+export const getMembersData = (delay?: number) => {
+  return new Promise((res, rej) =>
+    setTimeout(function () {
+      res(
+        [
+          { title: 'Nir1', subtitle: 'approved before day' },
+          { title: 'Ziri2', subtitle: 'approved before year' },
+          { title: 'Nir3', subtitle: 'approved before day' },
+          { title: 'Ziri4', subtitle: 'approved before year' },
+        ].slice(...getRandomPair(1, 6))
+      )
+    }, delay)
+  )
 }
