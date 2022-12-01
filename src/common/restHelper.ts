@@ -1,33 +1,18 @@
 import { getRandomPair } from './helpers'
 
-export const getData = (delay?: number) => {
+export const getData = (delay: number) => {
   return new Promise((res, rej) =>
     setTimeout(function () {
       res([
-        {
-          groupName: 'US admin 1',
-          status: '2 approved out of 2',
-        },
-        {
-          groupName: 'US admin 2',
-          status: '2 approved out of 2',
-        },
+        { name: 'file1', type: 'png', size: '10MB' },
+        { name: 'file2', type: 'doc', size: '4KB' },
+        { name: 'file3', type: 'jpg', size: '6MB' },
+        { name: 'file4', type: 'dir', size: '1MB' },
+        { name: 'file5', type: 'png', size: '7MB' },
+        { name: 'file6', type: 'png', size: '78MB' },
+        { name: 'file7', type: 'jpg', size: '0MB' },
+        { name: 'file8', type: 'dir', size: '9MB' },
       ])
-    }, delay)
-  )
-}
-
-export const getMembersData = (delay?: number) => {
-  return new Promise((res, rej) =>
-    setTimeout(function () {
-      res(
-        [
-          { title: 'Nir1', subtitle: 'approved before day' },
-          { title: 'Ziri2', subtitle: 'approved before year' },
-          { title: 'Nir3', subtitle: 'approved before day' },
-          { title: 'Ziri4', subtitle: 'approved before year' },
-        ].slice(...getRandomPair(1, 6))
-      )
     }, delay)
   )
 }

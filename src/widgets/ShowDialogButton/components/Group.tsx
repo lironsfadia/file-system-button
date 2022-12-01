@@ -12,20 +12,17 @@ export default function Group({
   closeHandler,
 }: GroupProps) {
   const [open, setOpen] = useState(false)
-  const handleExpandClick = () => {
+  const handleExpandClick = (e: unknown) => {
+    const handler = !open ? openHandler : closeHandler
+    handler(title)
     setOpen(!open)
   }
   return (
     <AccordionSummary
-      expandIcon={
-        <ExpandMoreIcon
-          style={{ cursor: 'pointer' }}
-          onClick={handleExpandClick}
-        />
-      }
+      expandIcon={<ExpandMoreIcon style={{ cursor: 'pointer' }} />}
       aria-controls={`${title}-content`}
       id={`${title}-group`}
-      onClick={!open ? openHandler : closeHandler}
+      onClick={handleExpandClick}
     >
       <CardHeader
         avatar={

@@ -14,32 +14,53 @@ function ShowDialogButton({
   members,
   isLoading,
   fetchGroupMembersHandler,
+  cleanupHandler,
   getDataHandler,
 }: ShowDialogButtonProps) {
   const { getConfirmation } = useConfirmationDialog()
-  console.log(members)
 
   useEffect(() => {
     if (groups) {
-      const handleClick = (e: any) => {
-        fetchGroupMembersHandler()
+      const handleClick = (groupName: string) => {
+        fetchGroupMembersHandler(groupName)
       }
+
+      const handleCleanup = (groupName: string) => {
+        cleanupHandler(groupName)
+      }
+
+      console.log(groups)
 
       const onClick = async () => {
         const confirmed = await getConfirmation({
           title: title,
-          message: groups.map((value) => (
-            <Accordion>
-              <Group
-                title={value.groupName}
-                subtitle={value.status}
-                clickHandler={handleClick}
+          message: groups.map((value) =>
+            value.isDir ? (
+              <Accordion>
+                <Group
+                  title={value.title}
+                  subtitle={value.subtitle}
+                  openHandler={handleClick}
+                  closeHandler={handleCleanup}
+                />
+                {(members[value.title] || []).map(
+                  ({ title, subtitle, image }) => (
+                    <GroupMember
+                      subtitle={subtitle}
+                      title={title}
+                      image={image}
+                    />
+                  )
+                )}
+              </Accordion>
+            ) : (
+              <GroupMember
+                title={value.title}
+                subtitle={value.subtitle}
+                image={value.image}
               />
-              {members.map((value) => (
-                <GroupMember subtitle={value.subtitle} title={value.title} />
-              ))}
-            </Accordion>
-          )),
+            )
+          ),
         })
 
         if (confirmed) alert('OK')

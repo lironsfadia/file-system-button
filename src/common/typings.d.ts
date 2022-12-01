@@ -17,10 +17,13 @@ export interface dialogConfigProps {
 }
 
 export interface ShowDialogButtonProps {
-  groups: Array<Group>
-  members: Array<GroupMember>
+  groups: Array<GroupMember>
+  members: {
+    [title: string]: GroupMember[]
+  }
   getDataHandler: () => void
-  fetchGroupMembersHandler: () => void
+  fetchGroupMembersHandler: (groupName: string) => void
+  cleanupHandler: (groupName: string) => void
   id: number
   isLoading: boolean
   title: string
@@ -35,6 +38,8 @@ export interface GroupMember {
   title: string
   subtitle: string
   image: any
+  isDir: boolean
+  children: Array<GroupMember>
 }
 
 export interface GroupProps {
@@ -47,4 +52,5 @@ export interface GroupProps {
 export interface GroupMemberProps {
   title: string | undefined
   subtitle: string | undefined
+  image: any
 }

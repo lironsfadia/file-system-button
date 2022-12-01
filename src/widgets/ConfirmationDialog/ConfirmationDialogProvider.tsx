@@ -38,7 +38,6 @@ export default function ConfirmationDialogProvider({
 
   const onDismiss = () => {
     resetDialog()
-    console.log('close')
     dialogConfig.actionCallback(false)
   }
   return (
