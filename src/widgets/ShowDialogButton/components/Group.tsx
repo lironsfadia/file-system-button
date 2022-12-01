@@ -1,17 +1,21 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { AccordionSummary, Avatar, CardHeader } from '@mui/material'
-import { deepPurple } from '@mui/material/colors'
+import { common } from '@mui/material/colors'
 import { useState } from 'react'
 
 import { GroupProps } from '../../../common/typings'
 
 export default function Group({
-  title,
-  subtitle,
-  openHandler,
   closeHandler,
+  image,
+  openHandler,
+  subtitle,
+  title,
 }: GroupProps) {
   const [open, setOpen] = useState(false)
+
+  const avatarStyles = { bgcolor: common, height: '50px', width: '50px' }
+
   const handleExpandClick = (e: unknown) => {
     const handler = !open ? openHandler : closeHandler
     handler(title)
@@ -25,13 +29,7 @@ export default function Group({
       onClick={handleExpandClick}
     >
       <CardHeader
-        avatar={
-          <Avatar
-            sx={{ bgcolor: deepPurple[500] }}
-            alt="Group"
-            src={require('../../../assets/avatar/group.png')}
-          />
-        }
+        avatar={<Avatar sx={avatarStyles} alt="Group" src={image} />}
         title={title}
         subheader={subtitle}
       />

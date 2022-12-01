@@ -10,7 +10,7 @@ export default function useConfirmationDialog() {
       if (openDialog) {
         openDialog({ actionCallback: res, ...options })
       } else {
-        rej("openDialog can't be null.")
+        rej("openDialog function can't be null.")
       }
     })
 

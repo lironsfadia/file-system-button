@@ -1,73 +1,61 @@
 import LoadingButton from '@mui/lab/LoadingButton'
-import { Accordion } from '@mui/material'
 import React, { useEffect } from 'react'
 
+import { CONFIRMATION_MESSAGE } from '../../../common/consts'
 import { ShowDialogButtonProps } from '../../../common/typings'
 import useConfirmationDialog from '../useConfirmationDialog'
-import Group from './Group'
+import GroupBuilder from './GroupBuilder'
 import GroupMember from './GroupMember'
 
 function ShowDialogButton({
-  id,
-  title,
-  groups,
-  members,
-  isLoading,
-  fetchGroupMembersHandler,
   cleanupHandler,
   getDataHandler,
+  getMemberDataHandler,
+  id,
+  isLoading,
+  roots,
+  siblings,
+  title,
 }: ShowDialogButtonProps) {
   const { getConfirmation } = useConfirmationDialog()
 
   useEffect(() => {
-    if (groups) {
+    if (roots) {
       const handleClick = (groupName: string) => {
-        fetchGroupMembersHandler(groupName)
+        getMemberDataHandler(groupName)
       }
 
       const handleCleanup = (groupName: string) => {
         cleanupHandler(groupName)
       }
 
-      console.log(groups)
-
       const onClick = async () => {
         const confirmed = await getConfirmation({
           title: title,
-          message: groups.map((value) =>
-            value.isDir ? (
-              <Accordion>
-                <Group
-                  title={value.title}
-                  subtitle={value.subtitle}
-                  openHandler={handleClick}
-                  closeHandler={handleCleanup}
-                />
-                {(members[value.title] || []).map(
-                  ({ title, subtitle, image }) => (
-                    <GroupMember
-                      subtitle={subtitle}
-                      title={title}
-                      image={image}
-                    />
-                  )
-                )}
-              </Accordion>
+          message: roots.map((root) =>
+            root.isDir ? (
+              <GroupBuilder
+                parent={root}
+                siblings={siblings}
+                handleCleanup={handleCleanup}
+                handleClick={handleClick}
+              />
             ) : (
               <GroupMember
-                title={value.title}
-                subtitle={value.subtitle}
-                image={value.image}
+                title={root.title}
+                subtitle={root.subtitle}
+                image={root.image}
               />
             )
           ),
         })
 
-        if (confirmed) alert('OK')
+        if (confirmed) alert(CONFIRMATION_MESSAGE)
       }
-      onClick()
+
+      if (roots.length > 0) onClick()
     }
-  }, [groups, members, title])
+  }, [roots, siblings, title])
 
   return (
     <LoadingButton

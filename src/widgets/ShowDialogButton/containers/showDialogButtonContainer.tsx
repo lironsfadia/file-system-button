@@ -1,14 +1,14 @@
 import React, { useCallback, useState } from 'react'
 
-import { getImageByType } from '../../../common/helpers'
+import { GENERAL_DIALOG_NAME } from '../../../common/consts'
+import { getMappedData } from '../../../common/helpers'
 import { getData } from '../../../common/restHelper'
-import { Group, GroupMember } from '../../../common/typings'
+import { GroupMember } from '../../../common/typings'
 import ShowDialogButton from '../components/ShowDialogButton'
 
-export default function ShowDialogButtonContainer({ id }: { id: number }) {
-  const [groupsData, setGroupsData] = useState<GroupMember[] | unknown>([])
-
-  const [membersData, setMembersData] = useState<{
+export default function ShowDialogButtonContainer() {
+  const [rootsData, setRootsData] = useState<GroupMember[] | unknown>([])
+  const [siblingsData, setSiblingsData] = useState<{
     [key: string]: GroupMember[] | unknown[]
   }>({})
   const [error, setError] = useState<string>('')
@@ -18,66 +18,59 @@ export default function ShowDialogButtonContainer({ id }: { id: number }) {
     async (groupName?: string) => {
       try {
         const data = await getData(1000)
-
-        const mappedData = (data as Array<unknown>).reduce(
-          (agg: Array<unknown>, current) => {
-            let currentValues = Object.values(current as Object)
-            agg.push({
-              title: currentValues[0],
-              image: getImageByType(currentValues[1]),
-              subtitle: currentValues[2],
-              isDir: currentValues[1] === 'dir',
-            })
-            return agg
-          },
-          []
-        )
+        const mappedData = getMappedData(data as unknown[])
 
         if (groupName) {
           const newData = {
-            ...membersData,
+            ...siblingsData,
             [groupName]: mappedData,
           }
-          setMembersData(newData)
+          setSiblingsData(newData)
         } else {
-          setGroupsData(mappedData)
+          setRootsData(mappedData)
         }
-      } catch (error: unknown) {
+      } catch (error) {
         setError(error as string)
+      } finally {
+        setIsLoading(false)
       }
     },
-    [membersData]
+    [siblingsData]
   )
 
   const handleGroupData = useCallback(() => {
     setIsLoading(true)
     updateGroupsData()
-  }, [])
+  }, [updateGroupsData])
 
-  const handleGroupMembersData = useCallback((groupName: string) => {
-    updateGroupsData(groupName)
-  }, [])
+  const handleGroupMembersData = useCallback(
+    (groupName: string) => {
+      setIsLoading(true)
+      updateGroupsData(groupName)
+    },
+    [updateGroupsData]
+  )
 
   const handleCleanup = useCallback((groupName: string) => {
-    setMembersData(({ [groupName]: toDelete, ...rest }) => rest)
+    setSiblingsData(({ [groupName]: toDelete, ...rest }) => rest)
   }, [])
 
   return (
     <>
       {
         <ShowDialogButton
-          id={id}
-          title={'My Computer'}
-          groups={groupsData as GroupMember[]}
-          members={
-            membersData as {
+          cleanupHandler={handleCleanup}
+          getMemberDataHandler={handleGroupMembersData}
+          getDataHandler={handleGroupData}
+          id={GENERAL_DIALOG_NAME}
+          isLoading={isLoading}
+          roots={rootsData as GroupMember[]}
+          title={GENERAL_DIALOG_NAME}
+          siblings={
+            siblingsData as {
               [groupName: string]: GroupMember[]
             }
           }
-          isLoading={isLoading}
-          getDataHandler={handleGroupData}
-          fetchGroupMembersHandler={handleGroupMembersData}
-          cleanupHandler={handleCleanup}
         />
       }
     </>

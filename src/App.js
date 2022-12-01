@@ -11,8 +11,7 @@ function App() {
     <div className="App">
       <ThemeProvider theme={mainTheme}>
         <ConfirmationDialogProvider>
-          <ShowDialogButtonContainer id={1} />
-          <ShowDialogButtonContainer id={2} />
+          <ShowDialogButtonContainer />
         </ConfirmationDialogProvider>
       </ThemeProvider>
     </div>

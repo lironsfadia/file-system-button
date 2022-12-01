@@ -1,8 +1,8 @@
 import CheckIcon from '@mui/icons-material/Check'
 import CloseIcon from '@mui/icons-material/Close'
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton } from '@mui/material'
-import React from 'react'
 
+import { DIALOG_ACTION_TEXT } from '../../../common/consts'
 import { ConfirmationDialogProps } from '../../../common/typings'
 
 const paperStyles = {
@@ -41,7 +41,7 @@ export default function ConfirmationDialog({
           variant="contained"
           onClick={onConfirm}
         >
-          Approved
+          {DIALOG_ACTION_TEXT}
         </Button>
       </DialogActions>
     </Dialog>
